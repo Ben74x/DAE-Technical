@@ -27,6 +27,7 @@ The extractor will then start fetching the markup from each URL and extracting h
 The code includes several parameters that you can customize to suit your needs. These parameters are defined at the top of the *extractor.py* file, and include:
 
 **link_queue**: The maximum size of the queue that holds the markup for processing.
+
 **threadpoolexecutor**: Pool of threads to fetch markups in producer and extract hyperlinks in consumer. It is also specified in the *run* function.
 
 
