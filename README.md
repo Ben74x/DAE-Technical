@@ -2,6 +2,16 @@
 
 ## Getting Started
 
+```extractor.py```: This is the main Python module containing the implementation of the producer and consumer functions.
+
+```test.py```: This is the Python test module containing unit tests for the producer and consumer functions.
+
+```urls.txt```: This is a text file containing a list of URLs to be processed by the producer function. Each URL should be on a separate line.
+
+```output.txt```: This is the output file that will be created by the consumer function. It will contain a list of URLs and their associated hyperlinks.
+
+Make sure that all these files are located in the same directory. The producer_consumer.py and test_producer_consumer.py files should both import the queue module, which is part of the standard library and should be available by default.
+
 Clone the repository
 ```git clone https://github.com/Ben74x/DAE-Technical.git```
 
