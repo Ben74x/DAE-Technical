@@ -6,7 +6,8 @@ class TestProducerConsumer(unittest.TestCase):
     def setUp(self):
         # create a test file with some URLs
         with open('test_urls.txt', 'w') as f:
-            f.write('http://example.com\n')
+            f.write('http://example.com/\n')
+            f.write('https://bdwumah.dev/\n')
         
     def tearDown(self):
         # remove the test file and output file
@@ -20,9 +21,9 @@ class TestProducerConsumer(unittest.TestCase):
         with open('test_output.txt', 'w') as f:
             f.write('')
         
-        run()
+        run('test_urls.txt', 'test_output.txt')
         
         # check that the output file was created and has the expected content
         with open('test_output.txt', 'r') as f:
             output = f.read()
-            self.assertIn('http://example.com', output)
+            self.assertIn('https://www.iana.org/domains/example', output)

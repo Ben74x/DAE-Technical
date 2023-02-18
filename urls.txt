@@ -1,1 +1,2 @@
-http://example.com
+http://example.com/
+https://bdwumah.dev/

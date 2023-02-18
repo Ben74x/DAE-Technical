@@ -20,9 +20,9 @@ def extract_markup(url):
         return None
 
 # Define a producer function to read URLs from a file and extract the markup
-def producer():
+def producer(urls):
     '''Function to read URLs from file to extract markup'''
-    with open('urls.txt', 'r') as f:
+    with open(urls, 'r') as f:
         urls = f.readlines()
     with ThreadPoolExecutor(max_workers=10) as executor:
         for markup in executor.map(extract_markup, urls):
@@ -31,25 +31,25 @@ def producer():
                 
 
 # Define a consumer function to parse the HTML and extract hyperlinks
-def consumer():
+def consumer(output):
     '''Function to parse HTML and extract hyperlinks'''
     while True:
         try:
             markup = link_queue.get(timeout=1)
             soup = BeautifulSoup(markup, 'lxml')
             links = [link.get('href') for link in soup.find_all('a')]
-            with open('output.txt', 'a') as f:
+            with open(output, 'a') as f:
                 f.write(f'{links}\n')
             link_queue.task_done()
         except queue.Empty:
             break
 
 # Define a function to run the producer and consumer concurrently
-def run():
+def run(urls, output):
     with ThreadPoolExecutor(max_workers=2) as executor:
-        executor.submit(producer)
-        executor.submit(consumer)
+        executor.submit(producer(urls))
+        executor.submit(consumer(output))
     link_queue.join()
 
 if __name__ == '__main__':
-    run()
+    run('urls.txt', 'output.txt')

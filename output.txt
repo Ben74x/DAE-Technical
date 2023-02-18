@@ -1,0 +1,2 @@
+['https://www.iana.org/domains/example']
+['/', '/', 'https://github.com/Ben74x', 'https://www.linkedin.com/in/benjamin-dwumah74/', '/blog', 'https://github.com/Ben74x/VProfile-Proj', 'https://bdwumah.dev/blog/Image%20Recognition%20and%20Chatbot%20Website%20Using%20AWS/', 'https://github.com/Ben74x/Image-Captioning-on-MSCoco-Dataset', '/blog/Containerising Microservice Project - EMART App/', '/blog/Image Recognition and Chatbot Website Using AWS/', '/blog/Hosting a static website on S3/', '/blog/Vagrant Provisioning/', '/blog/Practising Linux & Vagrant Skills/', '/blog']
