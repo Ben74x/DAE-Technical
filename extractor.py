@@ -53,3 +53,7 @@ def run(urls, output):
 
 if __name__ == '__main__':
     run('urls.txt', 'output.txt')
+
+
+
+# run on terminal: python extractor.py

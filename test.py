@@ -27,3 +27,6 @@ class TestProducerConsumer(unittest.TestCase):
         with open('test_output.txt', 'r') as f:
             output = f.read()
             self.assertIn('https://www.iana.org/domains/example', output)
+
+
+# run on terminal: python -m unittest test.py
