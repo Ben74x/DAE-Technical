@@ -72,8 +72,4 @@ def run(urls, output):
     consumer_future.result()
 
 if __name__ == '__main__':
-    run('urls.txt', 'output.txt')
-
-
-
-# run on terminal: python extractor.py
+    run('/home/DAE-technical/urls.txt', '/home/DAE-technical/output.txt')
