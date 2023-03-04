@@ -36,7 +36,7 @@ def extract_links(html):
     return links
 
 
-
+# Define producer function to read URLs from file and extract markup
 def producer(urls):
     '''Function to read URLs from file and extract markup'''
     with open(urls, 'r') as f:
@@ -52,16 +52,15 @@ def producer(urls):
 # Define a consumer function to parse the HTML and extract hyperlinks
 def consumer(output):
     '''Function to parse HTML and extract hyperlinks'''
-    while True:
-        try:
-            markup = link_queue.get(timeout=1)
-            soup = BeautifulSoup(markup, 'lxml')
-            links = [link.get('href') for link in soup.find_all('a')]
-            with open(output, 'a') as f:
-                f.write(f'{links}\n')
+    with open(output, 'a') as f:
+        while True:
+            markup = link_queue.get()
+            if markup is None:
+                # There are no more links to process
+                break
+            links = extract_links(markup)
+            f.write(f'{links}\n')
             link_queue.task_done()
-        except queue.Empty:
-            break
 
 # Define a function to run the producer and consumer concurrently
 def run(urls, output):
