@@ -64,10 +64,12 @@ def consumer(output):
 
 # Define a function to run the producer and consumer concurrently
 def run(urls, output):
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        executor.submit(producer(urls))
-        executor.submit(consumer(output))
-    link_queue.join()
+    with ProcessPoolExecutor(max_workers=2) as executor:
+        producer_future = executor.submit(producer, urls)
+        consumer_future = executor.submit(consumer, output)
+    # Wait for both producer and consumer to complete
+    producer_future.result()
+    consumer_future.result()
 
 if __name__ == '__main__':
     run('urls.txt', 'output.txt')
