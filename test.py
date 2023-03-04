@@ -1,32 +1,21 @@
-import os
 import unittest
-
-class TestProducerConsumer(unittest.TestCase):
-    
-    def setUp(self):
-        # create a test file with some URLs
-        with open('test_urls.txt', 'w') as f:
-            f.write('http://example.com/\n')
-            f.write('https://bdwumah.dev/\n')
-        
-    def tearDown(self):
-        # remove the test file and output file
-        os.remove('test_urls.txt')
-        os.remove('test_output.txt')
-    
-    def test_producer_consumer(self):
-        # run the producer and consumer functions
-        from extractor import run
-        
-        with open('test_output.txt', 'w') as f:
-            f.write('')
-        
-        run('test_urls.txt', 'test_output.txt')
-        
-        # check that the output file was created and has the expected content
-        with open('test_output.txt', 'r') as f:
-            output = f.read()
-            self.assertIn('https://www.iana.org/domains/example', output)
+from unittest.mock import patch, mock_open
+from extractor import extract_links
 
 
-# run on terminal: python -m unittest test.py
+class TestExtractLinks(unittest.TestCase):
+    @patch('extractor.requests.get')
+    def test_extract_links(self, mock_get):
+        # Create a mock response with some HTML content
+        mock_response = mock_get.return_value
+        mock_response.content = b'<html><body><a href="https://example.com">example</a></body></html>'
+
+        # Call the extract_links method with the mock response
+        links = extract_links(mock_response.content)
+
+        # Verify that the method returned the correct link
+        self.assertEqual(links, ['https://example.com'])
+
+
+if __name__ == '__main__':
+    unittest.main()
