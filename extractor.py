@@ -72,4 +72,4 @@ def run(urls, output):
     consumer_future.result()
 
 if __name__ == '__main__':
-    run('/home/DAE-technical/urls.txt', '/home/DAE-technical/output.txt')
+    run('/home/bdwumah74/DAE-Technical/urls.txt', '/home/bdwumah74/DAE-Technical/output.txt')
