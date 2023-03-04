@@ -14,6 +14,7 @@ def fetch_html(url):
     try:
         response = requests.get(url)
         return response.text
+        
     
     # Returning possible error messages instead of None.
     except requests.exceptions.HTTPError as errh:
@@ -25,14 +26,17 @@ def fetch_html(url):
     except requests.exceptions.RequestException as err:
         print ("Oops: Something Else",err)
 
+
 def extract_links(html):
     '''Function to extract hyperlinks from HTML'''
     if html is None:
         return []
+    
     soup = BeautifulSoup(html, 'lxml')
 
+
     # Considering 'a' tags with only 'href' attributes
-    links = [link.get('href') for link in soup.find_all('a') if link.has_attr('href')]
+    links = [link.get('href') for link in soup.find_all('a') if link.has_attr('href') and link['href'].startswith(('http', 'https'))]
     return links
 
 
@@ -40,7 +44,7 @@ def extract_links(html):
 def producer(urls):
     '''Function to read URLs from file and extract markup'''
     with open(urls, 'r') as f:
-        urls = f.readlines()
+        urls = [line.strip() for line in f]
     with ThreadPoolExecutor(max_workers=10) as executor:
         for markup in executor.map(fetch_html, urls):
             if markup:
@@ -64,7 +68,7 @@ def consumer(output):
 
 # Define a function to run the producer and consumer concurrently
 def run(urls, output):
-    with ProcessPoolExecutor(max_workers=2) as executor:
+    with ProcessPoolExecutor(max_workers=1) as executor:
         producer_future = executor.submit(producer, urls)
         consumer_future = executor.submit(consumer, output)
     # Wait for both producer and consumer to complete
@@ -72,4 +76,4 @@ def run(urls, output):
     consumer_future.result()
 
 if __name__ == '__main__':
-    run('/home/bdwumah74/DAE-Technical/urls.txt', '/home/bdwumah74/DAE-Technical/output.txt')
+    run('../DAE-Technical/urls.txt', '../DAE-Technical/output.txt')

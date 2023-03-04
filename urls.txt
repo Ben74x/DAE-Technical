@@ -1,2 +1,4 @@
-http://example.com/
-https://bdwumah.dev/
+https://www.cnn.com
+https://google.com
+https://www.bbc.com
+https://www.python.org
