@@ -68,7 +68,7 @@ def consumer(output):
 
 # Define a function to run the producer and consumer concurrently
 def run(urls, output):
-    with ProcessPoolExecutor(max_workers=1) as executor:
+    with ProcessPoolExecutor(max_workers=2) as executor:
         producer_future = executor.submit(producer, urls)
         consumer_future = executor.submit(consumer, output)
     # Wait for both producer and consumer to complete
