@@ -37,15 +37,16 @@ def extract_links(html):
 
 
 
-# Define a producer function to read URLs from a file and extract the markup
 def producer(urls):
-    '''Function to read URLs from file to extract markup'''
+    '''Function to read URLs from file and extract markup'''
     with open(urls, 'r') as f:
         urls = f.readlines()
     with ThreadPoolExecutor(max_workers=10) as executor:
-        for markup in executor.map(extract_markup, urls):
+        for markup in executor.map(fetch_html, urls):
             if markup:
                 link_queue.put(markup)
+    # Signal the consumer that there are no more links to process
+    link_queue.put(None)
                 
 
 # Define a consumer function to parse the HTML and extract hyperlinks
