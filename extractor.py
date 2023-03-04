@@ -1,23 +1,41 @@
 import queue
 import requests
 from bs4 import BeautifulSoup
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
 
 
 # Define the queue with the maximum size
 link_queue = queue.Queue(maxsize=1000)
 
-# Define a function to extract the markup from a URL
-session = requests.Session()
 
-
-def extract_markup(url):
-    '''Function to extract markup from a URL'''
+def fetch_html(url):
+    '''Function to fetch the HTML from a URL'''
     try:
-        response = session.get(url)
+        response = requests.get(url)
         return response.text
-    except:
-        return None
+    
+    # Returning possible error messages instead of None.
+    except requests.exceptions.HTTPError as errh:
+        print ("Http Error:",errh)
+    except requests.exceptions.ConnectionError as errc:
+        print ("Error Connecting:",errc)
+    except requests.exceptions.Timeout as errt:
+        print ("Timeout Error:",errt)
+    except requests.exceptions.RequestException as err:
+        print ("Oops: Something Else",err)
+
+def extract_links(html):
+    '''Function to extract hyperlinks from HTML'''
+    if html is None:
+        return []
+    soup = BeautifulSoup(html, 'lxml')
+
+    # Considering 'a' tags with only 'href' attributes
+    links = [link.get('href') for link in soup.find_all('a') if link.has_attr('href')]
+    return links
+
+
 
 # Define a producer function to read URLs from a file and extract the markup
 def producer(urls):
