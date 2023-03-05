@@ -1,0 +1,11 @@
+Updates
+1. Renamed extract_markup to fetch_html to more accurately describe what the function does.
+2. Added more details to the exceptions to know if something goes wrong
+3. Fixed the bug in links to consider only urls
+3. Changed the consumer function to continuously read from the queue until it receives a None value, indicating that there are no more links to process. It also now writes to the output file only once per markup processed, instead of for every link extracted.
+4. Changed the run function to use a ProcessPoolExecutor instead of a ThreadPoolExecutor since we are doing CPU-bound processing (parsing HTML) and not just IO-bound processing (fetching URLs).
+5. Added None value to the queue to signal that there are no more links to process.
+6. Removed link_queue.join() as it's not necessary in this implementation.
+7. Fixed the unit test for extract_links function. 
+8. Added unit test for producer and extractor
+9. Improved the Readme.
