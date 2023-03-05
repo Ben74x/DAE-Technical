@@ -4,7 +4,17 @@
 
 ```extractor.py```: This is the main Python module containing the implementation of the producer and consumer functions.
 
-```test.py```: This is the Python test module containing unit tests for the producer and consumer functions.
+    - *fetch_html(url)*: This function takes a URL as input and fetches the HTML content of the web page at that URL using the requests library. If the request is successful, it returns the HTML content as a string. If the request fails, it prints an error message and returns None.
+
+    - *extract_links(html)*: This function takes an HTML string as input and uses the BeautifulSoup library to parse the HTML and extract all the hyperlinks (i.e., anchor tags with href attributes). It returns a list of URLs.
+
+    - *producer(urls)*: This function takes a file path as input and reads URLs from the file. It then submits a task to a thread pool to fetch the HTML content for each URL using the fetch_html function. If the request is successful, it adds the HTML content to a queue called link_queue.
+
+    - *consumer(output)*: This function takes a file path as input and repeatedly reads items from the link_queue. If an item is a string (i.e., HTML content), it extracts the hyperlinks using the extract_links function and writes them to a file specified by the output argument. If an item is None, it signals that there are no more items in the queue and exits the loop.
+
+    - *run(urls, output)*: This function takes two file paths as input: one for the input file containing URLs and one for the output file where the extracted hyperlinks will be written. It creates a process pool with two processes and submits the producer and consumer functions to the pool. It then waits for both functions to complete using the result method of the Future object returned by the submit method.
+
+```unittest_extract_links.py```: This test uses the @patch decorator to mock the requests.get function and simulate a response. The content attribute of the response is set to some HTML content that includes a link. The extract_links method is called with this HTML content, and the test verifies that the method returns the correct link. This test does not rely on loading any files from disk, and it simulates a real-world scenario where the HTML content is obtained from a website.
 
 ```urls.txt```: This is a text file containing a list of URLs to be processed by the producer function. Each URL should be on a separate line.
 
