@@ -16,11 +16,15 @@
 
 ```unittest_extract_links.py```: This test uses the @patch decorator to mock the requests.get function and simulate a response. The content attribute of the response is set to some HTML content that includes a link. The extract_links method is called with this HTML content, and the test verifies that the method returns the correct link. This test does not rely on loading any files from disk, and it simulates a real-world scenario where the HTML content is obtained from a website.
 
+```unittest_producer.py```: This test checks that the producer function runs without errors when given a valid input file of URLs. It does this by setting the input file to a test file, creating an event loop and an asyncio.Future object to hold the result of running the producer function, running the producer function using asyncio.ensure_future, waiting for the future to complete using loop.run_until_complete, and then checking that the result of the future is not None. This test assumes that the consumer function is working correctly and that the URLs in the input file are valid.
+
+```unittest_consumer.py```: This test checks if the consumer function extracts hyperlinks and writes them to a file correctly. It also uses producer function to create the file with URLs first, which is a good way to test consumer function. Overall, the test covers the main functionality of consumer function and it's a good way to ensure that it works correctly.
+
 ```urls.txt```: This is a text file containing a list of URLs to be processed by the producer function. Each URL should be on a separate line.
 
 ```output.txt```: This is the output file that will be created by the consumer function. It will contain a list of URLs and their associated hyperlinks.
 
-Make sure that all these files are located in the same directory. The producer_consumer.py and test_producer_consumer.py files should both import the queue module, which is part of the standard library and should be available by default.
+
 
 Clone the repository
 ```git clone https://github.com/Ben74x/DAE-Technical.git```
@@ -33,17 +37,13 @@ To use this extractor, you'll need to provide a list of URLs to process. You can
 
 The extractor will then start fetching the markup from each URL and extracting hyperlinks from the markup. The output will be written to a file called output.txt, which will contain the original URL and a list of all the hyperlinks found on the page.
 
-## Customization
-The code includes several parameters that you can customize to suit your needs. These parameters are defined at the top of the *extractor.py* file, and include:
-
-**link_queue**: The maximum size of the queue that holds the markup for processing.
-
-**threadpoolexecutor**: Pool of threads to fetch markups in producer and extract hyperlinks in consumer. It is also specified in the *run* function.
 
 
 ## Testing
 The project includes a set of unit tests to verify that the program is working correctly. You can run the test by opening a terminal or command prompt in the same directory as the script, and running the following command:
 
-```python -m unittest test.py```
+```python -m unittest unittest_extract_links.py```
+```python -m unittest unittest_producer.py```
+```python -m unittest unittest_consumer.py```
 
 The tests will then be run, and any errors or failures will be reported to the console.
