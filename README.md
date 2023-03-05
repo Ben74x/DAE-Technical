@@ -43,7 +43,9 @@ The extractor will then start fetching the markup from each URL and extracting h
 The project includes a set of unit tests to verify that the program is working correctly. You can run the test by opening a terminal or command prompt in the same directory as the script, and running the following command:
 
 ```python -m unittest unittest_extract_links.py```
+
 ```python -m unittest unittest_producer.py```
+
 ```python -m unittest unittest_consumer.py```
 
 The tests will then be run, and any errors or failures will be reported to the console.
